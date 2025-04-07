@@ -1,3 +1,6 @@
+using EventEase.Data;
+using Microsoft.EntityFrameworkCore;
+
 namespace EventEase
 {
     public class Program
@@ -10,6 +13,10 @@ namespace EventEase
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(connectionString)); // UseNpgsql for PostgreSQL
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
